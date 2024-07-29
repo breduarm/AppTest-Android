@@ -53,7 +53,7 @@ fun Square() {
             .height(100.dp)
             .border(1.dp, Color.Black)
             .clickable {
-                text = "X"
+                text = if (text == "X") "" else "X"
             },
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
