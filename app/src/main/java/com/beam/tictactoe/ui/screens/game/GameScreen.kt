@@ -1,0 +1,179 @@
+package com.beam.tictactoe.ui.screens.game
+
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccountBox
+import androidx.compose.material.icons.filled.Face
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material3.BottomAppBar
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import com.beam.tictactoe.ui.theme.TicTacToeTheme
+
+@Composable
+fun GameScreen() {
+    TicTacToeTheme {
+        Scaffold(
+            topBar = {
+                HomeTopAppBar()
+            },
+            bottomBar = {
+                HomeBottomAppBar()
+            }
+        ) { innerPadding ->
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(innerPadding)
+                    .padding(horizontal = 24.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+            ) {
+                Spacer(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(40.dp)
+                )
+                Board()
+            }
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun HomeTopAppBar() {
+    TopAppBar(
+        title = {
+            Text(text = "Tic Tac Toe", fontSize = 20.sp)
+        },
+        colors = TopAppBarDefaults.topAppBarColors(
+            containerColor = Color(0xFF6200EA),
+            titleContentColor = Color.White,
+            actionIconContentColor = Color.White
+        ),
+        actions = {
+            IconButton(onClick = { /* TODO: Handle settings icon click */ }) {
+                Icon(Icons.Filled.MoreVert, contentDescription = "More")
+            }
+        }
+    )
+}
+
+@Composable
+fun HomeBottomAppBar() {
+    BottomAppBar(
+        containerColor = Color(0xFF6200EA), // Background color similar to the image
+        contentColor = Color.White,
+        tonalElevation = 8.dp,
+        actions = {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceAround,
+            ) {
+                IconButton(onClick = { /*TODO*/ }) {
+                    Icon(imageVector = Icons.Filled.Home, contentDescription = "Game")
+                }
+                IconButton(onClick = { /*TODO*/ }) {
+                    Icon(imageVector = Icons.Filled.AccountBox, contentDescription = "Scoreboard")
+                }
+                IconButton(onClick = { /*TODO*/ }) {
+                    Icon(imageVector = Icons.Filled.Face, contentDescription = "More Games")
+                }
+            }
+        })
+}
+
+@Composable
+fun Board() {
+    Column {
+        Row {
+            Square()
+            Square()
+            Square()
+        }
+        Row {
+            Square()
+            Square()
+            Square()
+        }
+        Row {
+            Square()
+            Square()
+            Square()
+        }
+    }
+}
+
+@Composable
+fun Square() {
+    var text: String by remember { mutableStateOf("") }
+
+    Column(
+        modifier = Modifier
+            .width(100.dp)
+            .height(100.dp)
+            .border(1.dp, Color.Black)
+            .clickable {
+                text = if (text == "X") "" else "X"
+            },
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center,
+    ) {
+        Text(
+            text = text,
+            textAlign = TextAlign.Center,
+            fontSize = 32.sp,
+            fontWeight = FontWeight.W700,
+            modifier = Modifier.align(Alignment.CenterHorizontally),
+        )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun GameScreenPreview() {
+    GameScreen()
+}
+
+@Preview(showBackground = true)
+@Composable
+fun BoardPreview() {
+    Board()
+}
+
+@Preview(showBackground = true)
+@Composable
+fun SquarePreview() {
+    Square()
+}
+
