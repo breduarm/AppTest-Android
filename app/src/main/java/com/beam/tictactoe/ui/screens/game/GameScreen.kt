@@ -15,11 +15,15 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountBox
 import androidx.compose.material.icons.filled.Face
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -44,10 +48,10 @@ fun GameScreen() {
     TicTacToeTheme {
         Scaffold(
             topBar = {
-                HomeTopAppBar()
+                GameTopAppBar()
             },
             bottomBar = {
-                HomeBottomAppBar()
+                GameBottomNavigationAppBar()
             }
         ) { innerPadding ->
             Column(
@@ -70,7 +74,7 @@ fun GameScreen() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeTopAppBar() {
+fun GameTopAppBar() {
     TopAppBar(
         title = {
             Text(text = "Tic Tac Toe", fontSize = 20.sp)
@@ -89,28 +93,58 @@ fun HomeTopAppBar() {
 }
 
 @Composable
-fun HomeBottomAppBar() {
-    BottomAppBar(
+fun GameBottomNavigationAppBar() {
+    NavigationBar(
         containerColor = Color(0xFF6200EA), // Background color similar to the image
         contentColor = Color.White,
         tonalElevation = 8.dp,
-        actions = {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceAround,
-            ) {
-                IconButton(onClick = { /*TODO*/ }) {
-                    Icon(imageVector = Icons.Filled.Home, contentDescription = "Game")
-                }
-                IconButton(onClick = { /*TODO*/ }) {
-                    Icon(imageVector = Icons.Filled.AccountBox, contentDescription = "Scoreboard")
-                }
-                IconButton(onClick = { /*TODO*/ }) {
-                    Icon(imageVector = Icons.Filled.Face, contentDescription = "More Games")
-                }
-            }
-        })
+    ) {
+        NavigationBarItem(
+            icon = { Icon(Icons.Filled.Home, contentDescription = "Game") },
+            label = { Text(text = "Game") },
+            selected = true,
+            onClick = { /*TODO*/ },
+            colors = NavigationBarItemDefaults.colors(
+                selectedIconColor = Color(0xFF6200EA),
+                selectedTextColor = Color.White,
+                indicatorColor = Color.White,
+                unselectedIconColor = Color.LightGray,
+                unselectedTextColor = Color.LightGray,
+                disabledIconColor = Color.Gray,
+                disabledTextColor = Color.Gray,
+            )
+        )
+        NavigationBarItem(
+            icon = { Icon(Icons.Filled.AccountBox, contentDescription = "Scoreboard") },
+            label = { Text(text = "Scoreboard") },
+            selected = false,
+            onClick = { /*TODO*/ },
+            colors = NavigationBarItemDefaults.colors(
+                selectedIconColor = Color(0xFF6200EA),
+                selectedTextColor = Color.White,
+                indicatorColor = Color.White,
+                unselectedIconColor = Color.LightGray,
+                unselectedTextColor = Color.LightGray,
+                disabledIconColor = Color.Gray,
+                disabledTextColor = Color.Gray,
+            )
+        )
+        NavigationBarItem(
+            icon = { Icon(Icons.Filled.Face, contentDescription = "More Games") },
+            label = { Text(text = "More Games") },
+            selected = false,
+            onClick = { /*TODO*/ },
+            colors = NavigationBarItemDefaults.colors(
+                selectedIconColor = Color(0xFF6200EA),
+                selectedTextColor = Color.White,
+                indicatorColor = Color.White,
+                unselectedIconColor = Color.LightGray,
+                unselectedTextColor = Color.LightGray,
+                disabledIconColor = Color.Gray,
+                disabledTextColor = Color.Gray,
+            )
+        )
+    }
 }
 
 @Composable
