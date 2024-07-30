@@ -75,6 +75,9 @@ dependencies {
     // DI
     implementation(libs.hilt.android)
     kapt(libs.hilt.android.compiler)
+
+    // Navigation
+    implementation(libs.navigation.compose)
 }
 
 // Allow references to generated code
