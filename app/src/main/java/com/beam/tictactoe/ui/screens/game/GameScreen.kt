@@ -30,6 +30,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -94,56 +95,37 @@ fun GameTopAppBar() {
 
 @Composable
 fun GameBottomNavigationAppBar() {
+    var selectedItem by remember { mutableIntStateOf(0) }
+    val items = listOf("Game", "Scoreboard", "More Games")
+
     NavigationBar(
         containerColor = Color(0xFF6200EA), // Background color similar to the image
         contentColor = Color.White,
         tonalElevation = 8.dp,
     ) {
-        NavigationBarItem(
-            icon = { Icon(Icons.Filled.Home, contentDescription = "Game") },
-            label = { Text(text = "Game") },
-            selected = true,
-            onClick = { /*TODO*/ },
-            colors = NavigationBarItemDefaults.colors(
-                selectedIconColor = Color(0xFF6200EA),
-                selectedTextColor = Color.White,
-                indicatorColor = Color.White,
-                unselectedIconColor = Color.LightGray,
-                unselectedTextColor = Color.LightGray,
-                disabledIconColor = Color.Gray,
-                disabledTextColor = Color.Gray,
+        items.forEachIndexed { index, item ->
+            NavigationBarItem(
+                icon = {
+                    when (index) {
+                        0 -> Icon(Icons.Filled.Home, contentDescription = item)
+                        1 -> Icon(Icons.Filled.AccountBox, contentDescription = item)
+                        2 -> Icon(Icons.Filled.Face, contentDescription = item)
+                    }
+                },
+                label = { Text(text = item) },
+                selected = selectedItem == index,
+                onClick = { selectedItem = index },
+                colors = NavigationBarItemDefaults.colors(
+                    selectedIconColor = Color(0xFF6200EA),
+                    selectedTextColor = Color.White,
+                    indicatorColor = Color.White,
+                    unselectedIconColor = Color.LightGray,
+                    unselectedTextColor = Color.LightGray,
+                    disabledIconColor = Color.Gray,
+                    disabledTextColor = Color.Gray,
+                )
             )
-        )
-        NavigationBarItem(
-            icon = { Icon(Icons.Filled.AccountBox, contentDescription = "Scoreboard") },
-            label = { Text(text = "Scoreboard") },
-            selected = false,
-            onClick = { /*TODO*/ },
-            colors = NavigationBarItemDefaults.colors(
-                selectedIconColor = Color(0xFF6200EA),
-                selectedTextColor = Color.White,
-                indicatorColor = Color.White,
-                unselectedIconColor = Color.LightGray,
-                unselectedTextColor = Color.LightGray,
-                disabledIconColor = Color.Gray,
-                disabledTextColor = Color.Gray,
-            )
-        )
-        NavigationBarItem(
-            icon = { Icon(Icons.Filled.Face, contentDescription = "More Games") },
-            label = { Text(text = "More Games") },
-            selected = false,
-            onClick = { /*TODO*/ },
-            colors = NavigationBarItemDefaults.colors(
-                selectedIconColor = Color(0xFF6200EA),
-                selectedTextColor = Color.White,
-                indicatorColor = Color.White,
-                unselectedIconColor = Color.LightGray,
-                unselectedTextColor = Color.LightGray,
-                disabledIconColor = Color.Gray,
-                disabledTextColor = Color.Gray,
-            )
-        )
+        }
     }
 }
 
