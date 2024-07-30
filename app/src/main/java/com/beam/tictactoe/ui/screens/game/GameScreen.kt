@@ -14,9 +14,13 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountBox
 import androidx.compose.material.icons.filled.Face
+import androidx.compose.material.icons.filled.Games
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.LineStyle
 import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material.icons.filled.Scoreboard
+import androidx.compose.material.icons.filled.VideogameAsset
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -107,9 +111,9 @@ fun GameBottomNavigationAppBar() {
             NavigationBarItem(
                 icon = {
                     when (index) {
-                        0 -> Icon(Icons.Filled.Home, contentDescription = item)
-                        1 -> Icon(Icons.Filled.AccountBox, contentDescription = item)
-                        2 -> Icon(Icons.Filled.Face, contentDescription = item)
+                        0 -> Icon(Icons.Filled.Games, contentDescription = item)
+                        1 -> Icon(Icons.Filled.Scoreboard, contentDescription = item)
+                        2 -> Icon(Icons.Filled.VideogameAsset, contentDescription = item)
                     }
                 },
                 label = { Text(text = item) },

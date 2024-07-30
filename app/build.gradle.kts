@@ -78,6 +78,9 @@ dependencies {
 
     // Navigation
     implementation(libs.navigation.compose)
+
+    // Icons
+    implementation(libs.material.icons.extended)
 }
 
 // Allow references to generated code
