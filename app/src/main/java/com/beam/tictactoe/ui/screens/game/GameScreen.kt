@@ -12,16 +12,10 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AccountBox
-import androidx.compose.material.icons.filled.Face
 import androidx.compose.material.icons.filled.Games
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.LineStyle
-import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.Scoreboard
 import androidx.compose.material.icons.filled.VideogameAsset
-import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -35,6 +29,7 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -135,42 +130,45 @@ fun GameBottomNavigationAppBar() {
 
 @Composable
 fun Board() {
+    val moves = remember { mutableStateListOf("", "", "", "", "", "", "", "", "") }
+    var isXNext by remember { mutableStateOf(true) }
+    val handleMove = { index: Int ->
+        val nextMove = if (isXNext) "X" else "O"
+        isXNext = !isXNext
+        moves[index] = nextMove
+    }
     Column {
         Row {
-            Square()
-            Square()
-            Square()
+            Square(mark = moves[0], onClick = { handleMove(0) })
+            Square(mark = moves[1], onClick = { handleMove(1) })
+            Square(mark = moves[2], onClick = { handleMove(2) })
         }
         Row {
-            Square()
-            Square()
-            Square()
+            Square(mark = moves[3], onClick = { handleMove(3) })
+            Square(mark = moves[4], onClick = { handleMove(4) })
+            Square(mark = moves[5], onClick = { handleMove(5) })
         }
         Row {
-            Square()
-            Square()
-            Square()
+            Square(mark = moves[6], onClick = { handleMove(6) })
+            Square(mark = moves[7], onClick = { handleMove(7) })
+            Square(mark = moves[8], onClick = { handleMove(8) })
         }
     }
 }
 
 @Composable
-fun Square() {
-    var text: String by remember { mutableStateOf("") }
-
+fun Square(mark: String, onClick: () -> Unit) {
     Column(
         modifier = Modifier
             .width(100.dp)
             .height(100.dp)
             .border(1.dp, Color.Black)
-            .clickable {
-                text = if (text == "X") "" else "X"
-            },
+            .clickable { onClick() },
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
     ) {
         Text(
-            text = text,
+            text = mark,
             textAlign = TextAlign.Center,
             fontSize = 32.sp,
             fontWeight = FontWeight.W700,
@@ -194,6 +192,6 @@ fun BoardPreview() {
 @Preview(showBackground = true)
 @Composable
 fun SquarePreview() {
-    Square()
+    Square(mark = "", onClick = {})
 }
 
