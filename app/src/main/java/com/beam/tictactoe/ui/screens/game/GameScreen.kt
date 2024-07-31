@@ -149,7 +149,7 @@ fun Board() {
     }
 
     fun handleMove(index: Int) {
-        if (moves[index].isNotEmpty()) return
+        if (moves[index].isNotEmpty() || !winner.isNullOrEmpty()) return
 
         val nextMove = if (isXNext) "X" else "O"
         isXNext = !isXNext
