@@ -1,5 +1,7 @@
 package com.beam.tictactoe.ui.screens.game
 
+import android.widget.Space
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -22,6 +24,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationBarItemDefaults
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -130,14 +133,32 @@ fun GameBottomNavigationAppBar() {
 
 @Composable
 fun Board() {
+    var winner by remember { mutableStateOf<String?>(null) }
     val moves = remember { mutableStateListOf("", "", "", "", "", "", "", "", "") }
     var isXNext by remember { mutableStateOf(true) }
-    val handleMove = { index: Int ->
+
+    fun calculateWinner() {
+        val winningCombinations = listOf("012", "345", "678", "036", "147", "258", "048", "246")
+        for (combination in winningCombinations) {
+            val (a, b, c) = combination.map { moves[it.digitToInt()] }
+            if (a.isNotEmpty() && a == b && b == c) {
+                winner = a
+            }
+        }
+        winner = null
+    }
+
+    fun handleMove(index: Int) {
+        if (moves[index].isNotEmpty()) return
+
         val nextMove = if (isXNext) "X" else "O"
         isXNext = !isXNext
         moves[index] = nextMove
+
+        calculateWinner()
     }
-    Column {
+
+    Column(horizontalAlignment = Alignment.CenterHorizontally) {
         Row {
             Square(mark = moves[0], onClick = { handleMove(0) })
             Square(mark = moves[1], onClick = { handleMove(1) })
@@ -152,6 +173,24 @@ fun Board() {
             Square(mark = moves[6], onClick = { handleMove(6) })
             Square(mark = moves[7], onClick = { handleMove(7) })
             Square(mark = moves[8], onClick = { handleMove(8) })
+        }
+        Spacer(modifier = Modifier
+            .fillMaxWidth()
+            .height(16.dp))
+        Text(
+            text = "Next Move: ${if (isXNext) "X" else "O"}",
+            fontSize = 24.sp,
+            fontWeight = FontWeight.W700,
+        )
+        winner?.let {
+            Spacer(modifier = Modifier
+                .fillMaxWidth()
+                .height(16.dp))
+            Text(
+                text = "Winner: $it",
+                fontSize = 24.sp,
+                fontWeight = FontWeight.W900,
+            )
         }
     }
 }
