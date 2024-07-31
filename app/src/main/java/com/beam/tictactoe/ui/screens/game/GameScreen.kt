@@ -137,15 +137,15 @@ fun Board() {
     val moves = remember { mutableStateListOf("", "", "", "", "", "", "", "", "") }
     var isXNext by remember { mutableStateOf(true) }
 
-    fun calculateWinner() {
+    fun calculateWinner(): String? {
         val winningCombinations = listOf("012", "345", "678", "036", "147", "258", "048", "246")
         for (combination in winningCombinations) {
             val (a, b, c) = combination.map { moves[it.digitToInt()] }
             if (a.isNotEmpty() && a == b && b == c) {
-                winner = a
+                return a
             }
         }
-        winner = null
+        return null
     }
 
     fun handleMove(index: Int) {
@@ -155,7 +155,13 @@ fun Board() {
         isXNext = !isXNext
         moves[index] = nextMove
 
-        calculateWinner()
+        winner = calculateWinner()
+    }
+
+    fun clear() {
+        winner = null
+        moves.fill("")
+        isXNext = true
     }
 
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
@@ -174,14 +180,6 @@ fun Board() {
             Square(mark = moves[7], onClick = { handleMove(7) })
             Square(mark = moves[8], onClick = { handleMove(8) })
         }
-        Spacer(modifier = Modifier
-            .fillMaxWidth()
-            .height(16.dp))
-        Text(
-            text = "Next Move: ${if (isXNext) "X" else "O"}",
-            fontSize = 24.sp,
-            fontWeight = FontWeight.W700,
-        )
         winner?.let {
             Spacer(modifier = Modifier
                 .fillMaxWidth()
@@ -190,6 +188,21 @@ fun Board() {
                 text = "Winner: $it",
                 fontSize = 24.sp,
                 fontWeight = FontWeight.W900,
+            )
+            Spacer(modifier = Modifier
+                .fillMaxWidth()
+                .height(16.dp))
+            OutlinedButton(onClick = { clear() }) {
+                Text(text = "Play Again")
+            }
+        } ?: run {
+            Spacer(modifier = Modifier
+                .fillMaxWidth()
+                .height(16.dp))
+            Text(
+                text = "Next Move: ${if (isXNext) "X" else "O"}",
+                fontSize = 24.sp,
+                fontWeight = FontWeight.W700,
             )
         }
     }
